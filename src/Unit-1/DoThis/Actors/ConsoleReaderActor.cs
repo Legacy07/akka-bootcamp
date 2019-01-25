@@ -34,6 +34,7 @@ namespace WinTail
             if (message is StartCommand)
             {
                 _validationActor.Tell(StartCommand);
+                Self.Tell(new Messages.ContinueProcessing());
             }
             else
             {

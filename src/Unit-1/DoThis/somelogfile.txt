@@ -1,0 +1,36 @@
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+Some log file
+
+So, it updates in cmd as the txt file updates. 
+
+Yeah

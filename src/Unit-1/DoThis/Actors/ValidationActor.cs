@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,13 @@ namespace WinTail.Actors
     class ValidationActor : UntypedActor
     {
         private IActorRef _consoleWriterActor;
+        private IActorRef _tailsCoordinatorActor;
 
-        public ValidationActor(IActorRef consoleWriterActor)
+        public ValidationActor(IActorRef consoleWriterActor, IActorRef tailscoordinatorActor)
         {
             this._consoleWriterActor = consoleWriterActor;
+            this._tailsCoordinatorActor = tailscoordinatorActor;
+
         }
 
         protected override void OnReceive(object message)
@@ -37,30 +41,34 @@ namespace WinTail.Actors
             {
                 // signal that the user needs to supply an input, as previously
                 // received input was blank
-                _consoleWriterActor.Tell(new Messages.NullInputError("No Input Received"));
+                _consoleWriterActor.Tell(new Messages.NullInputError("Enter something."));
+                // tell the sender to continue doing its thing
+                Sender.Tell(new Messages.ContinueProcessing());
             }
             else
             {
-                var valid = IsValid(msg);
+                var valid = IsFileExists(msg);
+
                 if (valid)
                 {
-                    _consoleWriterActor.Tell(new Messages.InputSuccess("Valid: even number of characters!"));
+                    // singal input if successfull 
+                    _consoleWriterActor.Tell(new Messages.InputSuccess(string.Format("Starting processing for {0}", msg)));
+                    // start coordinator
+                    _tailsCoordinatorActor.Tell(new TailCoordinatorActor.StartTail(msg, _consoleWriterActor));
                 }
 
                 else
                 {
-                    _consoleWriterActor.Tell(new Messages.ValidationError("Invalid: input had odd number of characters!"));
+                    _consoleWriterActor.Tell(new Messages.ValidationError(string.Format("{0} cannot be found!", msg)));
+                    // tell the sender to continue doing its thing
+                    Sender.Tell(new Messages.ContinueProcessing());
                 }
             }
-            // tell the sender to continue doing its thing
-            Sender.Tell(new Messages.ContinueProcessing());
+
         }
-        private bool IsValid(string message)
+        private bool IsFileExists(string path)
         {
-            var valid = message.Length % 2 == 0;
-
-            return valid;
-
+            return File.Exists(path);
         }
     }
 }
