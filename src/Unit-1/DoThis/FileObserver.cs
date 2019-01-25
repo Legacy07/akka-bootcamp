@@ -18,6 +18,7 @@ namespace WinTail
         private readonly string _fileDir;
         private readonly string _fileNameOnly;
 
+        //class to observe file and check for changes
         public FileObserver(IActorRef tailActor, string absoluteFilePath)
         {
             _tailActor = tailActor;
@@ -59,8 +60,6 @@ namespace WinTail
         /// <summary>
         /// Callback for <see cref="FileSystemWatcher"/> file error events.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void OnFileError(object sender, ErrorEventArgs e)
         {
             _tailActor.Tell(new TailActor.FileError(_fileNameOnly,
@@ -71,8 +70,6 @@ namespace WinTail
         /// <summary>
         /// Callback for <see cref="FileSystemWatcher"/> file change events.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void OnFileChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)

@@ -34,12 +34,14 @@ namespace WinTail
             if (message is StartCommand)
             {
                 _validationActor.Tell(StartCommand);
-                Self.Tell(new Messages.ContinueProcessing());
             }
             else
             {
                 _validationActor.Tell(ReadInput());
             }
+            //this will keep doing its thing, in this case it will be re-reading the console. 
+            Self.Tell(new Messages.ContinueProcessing());
+
         }
 
     }
