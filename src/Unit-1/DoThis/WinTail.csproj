@@ -51,9 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleReaderActor.cs" />
-    <Compile Include="ConsoleWriterActor.cs" />
-    <Compile Include="Messages.cs" />
+    <Compile Include="Actors\ConsoleReaderActor.cs" />
+    <Compile Include="Actors\ConsoleWriterActor.cs" />
+    <Compile Include="Actors\ValidationActor.cs" />
+    <Compile Include="Messages\Messages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

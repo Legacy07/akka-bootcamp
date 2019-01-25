@@ -12,7 +12,11 @@ namespace WinTail
         protected override void OnReceive(object message)
         {
             // if there is an error then out put input error reason 
-            if (message is Messages.InputError)
+            if(message.Equals(ConsoleReaderActor.StartCommand))
+            {
+                DoPrintInstructions();
+            }
+            else if (message is Messages.InputError)
             {
                 var msg = message as Messages.InputError;
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -27,11 +31,17 @@ namespace WinTail
             }
             else
             {
-                Console.WriteLine(message); 
+                Console.WriteLine(message);
             }
 
             Console.ResetColor();
 
+        }
+        private void DoPrintInstructions()
+        {
+            Console.WriteLine("Write whatever you want into the console!");
+            Console.WriteLine("Some entries will pass validation, and some won't...\n\n");
+            Console.WriteLine("Type 'exit' to quit this application at any time.\n");
         }
     }
 }
