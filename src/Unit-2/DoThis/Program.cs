@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.Windows.Forms;
 using Akka.Actor;
+using Akka.Configuration.Hocon;
 
 namespace ChartApp
 {

@@ -18,7 +18,7 @@ namespace ChartApp
                 var rng = ThreadLocalRandom.Current.NextDouble();
                 series.Points.Add(new DataPoint(i, 2.0*Math.Sin(rng) + Math.Sin(rng/4.5)));
             }
-            series.BorderWidth = 1;
+            series.BorderWidth = 3;
             return series;
         }
     }
